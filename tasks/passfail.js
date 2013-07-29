@@ -24,7 +24,7 @@ module.exports = function(grunt) {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
       force: true,
-      warnerrorFn: false,
+      fail: false,
       error: false,
       warn: false,
       success: false,
@@ -34,10 +34,10 @@ module.exports = function(grunt) {
 
     var taskOptions = grunt.config(['passfail', this.target, 'options']) ||
         grunt.config(['passfail', this.target]) || {};
-    var warnerrorFn = taskOptions.warnerrorFn || options.warnerrorFn;
-    var errorFn = taskOptions.errorFn || options.errorFn;
-    var warnFn = taskOptions.warnFn || options.warnFn;
-    var successFn = taskOptions.successFn || options.successFn;
+    var failFn = taskOptions.fail || options.fail;
+    var errorFn = taskOptions.error || options.error;
+    var warnFn = taskOptions.warn || options.warn;
+    var successFn = taskOptions.success || options.success;
     var ignoreWarn = taskOptions.ignoreWarn || options.ignoreWarn;
     var ignoreError = taskOptions.ignoreError || options.ignoreError;
     var warncount = grunt.fail.warncount;
@@ -45,8 +45,8 @@ module.exports = function(grunt) {
     var isWarn = warncount > 0;
     var isError = errorcount > 0;
 
-    if (warnerrorFn && (isWarn || isError) && _.isFunction(warnerrorFn)) {
-      warnerrorFn.apply(this, [warncount, errorcount]);
+    if (failFn && (isWarn || isError) && _.isFunction(failFn)) {
+      failFn.apply(this, [warncount, errorcount]);
     }
     if (errorFn && isError && _.isFunction(errorFn)) {
       errorFn.call(this, errorcount);
