@@ -37,53 +37,82 @@ grunt.initConfig({
 
 ### Options
 
-#### options.separator
-Type: `String`
-Default value: `',  '`
+All callbacks called in task context, giving you access to the "inside tasks" API:
+[](http://gruntjs.com/api/inside-tasks)
 
-A string value that is used to do something with whatever.
+Could be useful, for example, to run async logic with `this.async`
 
-#### options.punctuation
-Type: `String`
-Default value: `'.'`
+#### options.force
+Type: `Boolean`
+Default value: `true`
 
-A string value that is used to do something else with whatever else.
+Alias for the `--force` option on the command line. Defaults to true.
+This plugin won't work without force, since it will presumably be the last task
+run and will never be run if a previous task fails without --force set.
+
+#### options.fail
+Type: `Function`
+
+A function to be run when at least one warning or error has occured anywhere
+in the current task. Is passed the number of warnings and errors occurred.
+
+`callback(warncount, errorcount)`
+
+#### options.success
+Type: `Function`
+
+A function to be run when no errors nor warnings have occurred. Also, the options `ignoreWarn` and
+`ignoreError` can be supplied to affect the condition on which `success` is callled.
+
+#### options.error
+Type: `Function`
+
+A function to be run when at least one error has occurred in the current task. It is passed
+the number of errors occurred.
+
+`callback(errorcount)`
+
+#### options.warn
+Type: `Function`
+
+A function to be run when at least one warning has occurred in the current task. It is passed
+the number of warnings occurred.
+
+`callback(warncount)`
+
+### options.ignoreWarn
+Type: `Boolean`
+Default: `false`
+
+If set to true, warnings will not affect whether the success function will be run.
+
+### options.ignoreError
+Type: `Boolean`
+Default: `false`
+
+If set to true, errors will not affect whether the success function will be run.
 
 ### Usage Examples
 
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
-
 ```js
 grunt.initConfig({
   passfail: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
+    all: {
+      success: function() {
+        console.log("Cool :)")
+      },
+      fail: function() {
+        console.log("Lame :'(")
+      }
+    }
+  }
 })
 ```
 
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+### Possible TODOs
 
-```js
-grunt.initConfig({
-  passfail: {
-    options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-})
-```
+- Use `this.requires` for success / fail checking?
+- Allow customizable success and failure conditions?
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
-
-## Release History
-_(Nothing yet)_
