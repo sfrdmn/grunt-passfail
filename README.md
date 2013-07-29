@@ -44,11 +44,14 @@ Could be useful, for example, to run async logic with `this.async`
 
 #### options.force
 Type: `Boolean`
-Default value: `true`
+Default value: `false`
 
-Alias for the `--force` option on the command line. Defaults to true.
+Alias for the `--force` option on the command line. Defaults to false.
 This plugin won't work without force, since it will presumably be the last task
 run and will never be run if a previous task fails without --force set.
+
+This is just a convenience so you don't have to supply `--force` all the time, but beware!
+It'll force `--force` on all your tasks! force force :O
 
 #### options.fail
 Type: `Function`

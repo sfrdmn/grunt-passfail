@@ -15,8 +15,8 @@ module.exports = function(grunt) {
   // Set force option when module loaded so it will apply to all tasks
   // Requires the configuration to have already been initialized before task is loaded
   var force = grunt.config(['passfail', 'options', 'force']);
-  // Default is true
-  if (typeof force === 'undefined' || force) {
+  // Default is false
+  if (force) {
     grunt.option('force', true);
   }
 

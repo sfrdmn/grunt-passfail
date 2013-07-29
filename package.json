@@ -1,7 +1,7 @@
 {
   "name": "grunt-passfail",
   "description": "Run functions when your tasks complete or fail.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/sean/grunt-passfail",
   "author": {
     "name": "Sean Fridman",
