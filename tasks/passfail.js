@@ -10,17 +10,17 @@
 
 module.exports = function(grunt) {
 
-  var _ = grunt.util._
+  var _ = grunt.util._;
 
   // Set force option when module loaded so it will apply to all tasks
-  // Requires the configuration to have already been initialized?
-  var force = grunt.config(['passfail', 'force']);
-  // Default is true
-  if (typeof force === 'undefined' || force) {
-    grunt.option('force', true)
+  // Requires the configuration to have already been initialized before task is loaded
+  var force = grunt.config(['passfail', 'options', 'force']);
+  // Default is false
+  if (force) {
+    grunt.option('force', true);
   }
 
-  grunt.registerMultiTask('passfail', 'Run functions when your tasks complete or fail.', function() {
+  grunt.registerMultiTask('passfail', 'Run functions when your tasks complete or fail.', function(target) {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
       force: true,
@@ -32,17 +32,16 @@ module.exports = function(grunt) {
       ignoreError: false
     });
 
-    var name = this.name || 'passfail';
-    var warnerrorFn = grunt.config([name, 'warnerror']);
-    var errorFn = grunt.config([name, 'error']);
-    var warnFn = grunt.config([name, 'warn']);
-    var successFn = grunt.config([name, 'success']);
-    var ignoreWarn = grunt.config([name, 'ignoreWarn']);
-    var ignoreError = grunt.config([name, 'ignoreError']);
-    var warncount = grunt.fail.warncount
-    var errorcount = grunt.fail.errorcount
-    var isWarn = warncount > 0
-    var isError = errorcount > 0
+    var warnerrorFn = grunt.config(['passfail', 'options', 'warnerror']);
+    var errorFn = grunt.config(['passfail', 'options', 'error']);
+    var warnFn = grunt.config(['passfail', 'options', 'warn']);
+    var successFn = grunt.config(['passfail', 'options', 'success']);
+    var ignoreWarn = grunt.config(['passfail', 'options', 'ignoreWarn']);
+    var ignoreError = grunt.config(['passfail', 'options', 'ignoreError']);
+    var warncount = grunt.fail.warncount;
+    var errorcount = grunt.fail.errorcount;
+    var isWarn = warncount > 0;
+    var isError = errorcount > 0;
 
     if (warnerrorFn && (isWarn || isError) && _.isFunction(warnerrorFn)) {
       warnerrorFn.apply(this, [warncount, errorcount]);
@@ -53,7 +52,7 @@ module.exports = function(grunt) {
     if (warnFn && isWarn && _.isFunction(warnFn)) {
       warnFn.call(this, warncount);
     }
-    if (successFn && _.isFunction(error)) {
+    if (successFn && _.isFunction(successFn)) {
       // If warning or error, figure out whether it's ignored as success condition
       if (isWarn || isError) {
         if ((ignoreWarn && ignoreError) ||
