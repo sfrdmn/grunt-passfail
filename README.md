@@ -38,7 +38,7 @@ grunt.initConfig({
 ### Options
 
 All callbacks called in task context, giving you access to the "inside tasks" API:
-[](http://gruntjs.com/api/inside-tasks)
+[http://gruntjs.com/api/inside-tasks](http://gruntjs.com/api/inside-tasks)
 
 Could be useful, for example, to run async logic with `this.async`
 
