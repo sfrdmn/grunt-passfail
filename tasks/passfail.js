@@ -23,7 +23,6 @@ module.exports = function(grunt) {
   grunt.registerMultiTask('passfail', 'Run functions when your tasks complete or fail.', function() {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
-      force: true,
       fail: false,
       error: false,
       warn: false,
