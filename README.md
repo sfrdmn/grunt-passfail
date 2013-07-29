@@ -43,6 +43,8 @@ All callbacks called in task context, giving you access to the "inside tasks" AP
 Could be useful, for example, to run async logic with `this.async`
 
 #### options.force
+### read this!
+
 Type: `Boolean`
 Default value: `false`
 
@@ -100,6 +102,9 @@ If set to true, errors will not affect whether the success function will be run.
 ```js
 grunt.initConfig({
   passfail: {
+    options: {
+      force: true
+    },
     all: {
       success: function() {
         console.log("Cool :)")
