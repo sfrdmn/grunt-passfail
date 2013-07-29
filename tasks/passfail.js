@@ -20,7 +20,7 @@ module.exports = function(grunt) {
     grunt.option('force', true);
   }
 
-  grunt.registerMultiTask('passfail', 'Run functions when your tasks complete or fail.', function(target) {
+  grunt.registerMultiTask('passfail', 'Run functions when your tasks complete or fail.', function() {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
       force: true,
@@ -32,12 +32,14 @@ module.exports = function(grunt) {
       ignoreError: false
     });
 
-    var warnerrorFn = grunt.config(['passfail', 'options', 'warnerror']);
-    var errorFn = grunt.config(['passfail', 'options', 'error']);
-    var warnFn = grunt.config(['passfail', 'options', 'warn']);
-    var successFn = grunt.config(['passfail', 'options', 'success']);
-    var ignoreWarn = grunt.config(['passfail', 'options', 'ignoreWarn']);
-    var ignoreError = grunt.config(['passfail', 'options', 'ignoreError']);
+    var taskOptions = grunt.config(['passfail', this.target, 'options']) ||
+        grunt.config(['passfail', this.target]) || {};
+    var warnerrorFn = taskOptions.warnerrorFn || options.warnerrorFn;
+    var errorFn = taskOptions.errorFn || options.errorFn;
+    var warnFn = taskOptions.warnFn || options.warnFn;
+    var successFn = taskOptions.successFn || options.successFn;
+    var ignoreWarn = taskOptions.ignoreWarn || options.ignoreWarn;
+    var ignoreError = taskOptions.ignoreError || options.ignoreError;
     var warncount = grunt.fail.warncount;
     var errorcount = grunt.fail.errorcount;
     var isWarn = warncount > 0;
