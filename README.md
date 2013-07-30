@@ -117,6 +117,28 @@ grunt.initConfig({
 })
 ```
 
+Here's an example using [SoX](http://sox.sourceforge.net/) to play an mp3
+
+```js
+var spawn = require('child_process').spawn;
+
+grunt.initConfig({
+  passfail: {
+    options: {
+      force: true
+    },
+    all: {
+      success: function() {
+        spawn('play', ['./success.mp3']).on('close', this.async());
+      },
+      fail: function() {
+        spawn('play', ['./fail.mp3']).on('close', this.async());
+      }
+    }
+  }
+})
+```
+
 ### Possible TODOs
 
 - Use `this.requires` for success / fail checking?
